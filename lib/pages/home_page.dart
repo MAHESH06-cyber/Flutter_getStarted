@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:flutter_application_1/models/catalog.dart';
+import 'package:flutter_application_1/pages/home_detail_page.dart';
 import 'package:flutter_application_1/widgets/drawer.dart';
 import 'package:flutter_application_1/widgets/item_widget.dart';
 import 'package:flutter_application_1/widgets/themes.dart';
@@ -47,11 +48,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               CatalogHeader(),
               if (CatalogModel.items.isNotEmpty)
-                CatalogList().expand()
+                CatalogList().py16().expand()
               else
-                Center(
-                  child: CircularProgressIndicator(),
-                )
+                CircularProgressIndicator().centered().expand(),
             ],
           ),
         ),
@@ -59,6 +58,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+// Catalog header
 
 class CatalogHeader extends StatelessWidget {
   const CatalogHeader({Key? key}) : super(key: key);
@@ -75,6 +76,8 @@ class CatalogHeader extends StatelessWidget {
   }
 }
 
+// catalogList
+
 class CatalogList extends StatelessWidget {
   const CatalogList({Key? key}) : super(key: key);
 
@@ -85,11 +88,18 @@ class CatalogList extends StatelessWidget {
       itemCount: CatalogModel.items.length,
       itemBuilder: (context, index) {
         final catalog = CatalogModel.items[index];
-        return CatalogItem(catalog: catalog);
+        return InkWell(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HomeDetailPage(catalog: catalog))),
+            child: CatalogItem(catalog: catalog));
       },
     );
   }
 }
+
+// Catalog item for Catalog List
 
 class CatalogItem extends StatelessWidget {
   final Item catalog;
@@ -103,7 +113,9 @@ class CatalogItem extends StatelessWidget {
     return VxBox(
         child: Row(
       children: [
-        CatalogImage(image: catalog.image),
+        Hero(
+            tag: Key(catalog.id.toString()),
+            child: CatalogImage(image: catalog.image)),
         Expanded(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,6 +146,8 @@ class CatalogItem extends StatelessWidget {
     )).white.rounded.square(150).make().py16();
   }
 }
+
+// catalog Image
 
 class CatalogImage extends StatelessWidget {
   final String image;
