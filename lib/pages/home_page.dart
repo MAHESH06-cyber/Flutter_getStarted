@@ -41,15 +41,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.creamColor,
+      backgroundColor: context.canvasColor,
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, MyRoutes.cartRoute),
-        backgroundColor: MyTheme.darkBluishColor,
-        child: Icon(CupertinoIcons.cart),
+        backgroundColor: context.theme.buttonColor,
+        child: Icon(
+          CupertinoIcons.cart,
+          color: Colors.white,
+        ),
       ),
       body: SafeArea(
         child: Container(
-          padding: Vx.m24,
+          padding: Vx.m16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -76,7 +79,7 @@ class CatalogHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        "Catalog App".text.xl5.bold.color(MyTheme.darkBluishColor).make(),
+        "Catalog App".text.xl5.bold.color(context.theme.accentColor).make(),
         "Trending products".text.xl2.make()
       ],
     );
@@ -128,29 +131,30 @@ class CatalogItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            catalog.name.text.lg.bold.make(),
+            catalog.name.text.lg.color(context.accentColor).bold.make(),
             catalog.desc.text.make(),
             10.heightBox,
             ButtonBar(
               alignment: MainAxisAlignment.spaceBetween,
+              buttonPadding: EdgeInsets.zero,
               children: [
                 "\$${catalog.price}".text.bold.xl.make(),
                 ElevatedButton(
                   onPressed: () {},
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(MyTheme.darkBluishColor),
+                          MaterialStateProperty.all(context.theme.buttonColor),
                       shape: MaterialStateProperty.all(
                         StadiumBorder(),
                       )),
                   child: "Add To Cart".text.make(),
                 ),
               ],
-            ).pOnly(right: 8.0)
+            ).pOnly(right: 3.0)
           ],
         ))
       ],
-    )).white.rounded.square(150).make().py16();
+    )).color(context.cardColor).rounded.square(150).make().py16();
   }
 }
 
@@ -164,6 +168,6 @@ class CatalogImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.network(
       image,
-    ).box.rounded.p16.color(MyTheme.creamColor).make().p16().w40(context);
+    ).box.rounded.p16.color(context.canvasColor).make().p16().w40(context);
   }
 }

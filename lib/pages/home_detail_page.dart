@@ -10,26 +10,27 @@ class HomeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
+      appBar: AppBar(backgroundColor: Colors.transparent),
+      backgroundColor: context.canvasColor,
+      bottomNavigationBar: Container(
+        color: context.cardColor,
+        child: ButtonBar(
+          alignment: MainAxisAlignment.spaceBetween,
+          children: [
+            "\$${catalog.price}".text.bold.xl4.red700.make(),
+            ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(context.theme.buttonColor),
+                  shape: MaterialStateProperty.all(
+                    StadiumBorder(),
+                  )),
+              child: "Add To Cart".text.make(),
+            ).wh(120, 50),
+          ],
+        ).p16(),
       ),
-      backgroundColor: MyTheme.creamColor,
-      bottomNavigationBar: ButtonBar(
-        alignment: MainAxisAlignment.spaceBetween,
-        children: [
-          "\$${catalog.price}".text.bold.xl4.red700.make(),
-          ElevatedButton(
-            onPressed: () {},
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(MyTheme.darkBluishColor),
-                shape: MaterialStateProperty.all(
-                  StadiumBorder(),
-                )),
-            child: "Add To Cart".text.make(),
-          ).wh(120, 50),
-        ],
-      ).p16(),
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -44,11 +45,14 @@ class HomeDetailPage extends StatelessWidget {
                 arcType: VxArcType.CONVEY,
                 edge: VxEdge.TOP,
                 child: Container(
-                  color: Colors.white,
+                  color: context.cardColor,
                   width: context.screenWidth,
                   child: Column(
                     children: [
-                      catalog.name.text.xl4.bold.make(),
+                      catalog.name.text.xl4
+                          .color(context.accentColor)
+                          .bold
+                          .make(),
                       catalog.desc.text.xl.make(),
                       10.heightBox,
                       "Dolor dolor nonumy et est eirmod dolor sit. At ipsum magna voluptua eos, dolor accusam clita eos vero ipsum tempor labore lorem. Accusam takimata elitr diam no invidunt at, ipsum."
